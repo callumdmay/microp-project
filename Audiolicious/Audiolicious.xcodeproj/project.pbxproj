@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8FB8A018DF9BBBA3B26630B9 /* Pods_Audiolicious.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F26B20299537A4C417AFAB3A /* Pods_Audiolicious.framework */; };
+		F2057C801FC3E52600FC2578 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2057C7F1FC3E50F00FC2578 /* CoreBluetooth.framework */; };
 		F28F31C51FC3DB10008FD933 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28F31C41FC3DB10008FD933 /* AppDelegate.swift */; };
 		F28F31C71FC3DB10008FD933 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28F31C61FC3DB10008FD933 /* ViewController.swift */; };
 		F28F31CA1FC3DB10008FD933 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F28F31C81FC3DB10008FD933 /* Main.storyboard */; };
@@ -17,6 +18,7 @@
 
 /* Begin PBXFileReference section */
 		9E30F1A37B2D70F3AC84D501 /* Pods-Audiolicious.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Audiolicious.release.xcconfig"; path = "Pods/Target Support Files/Pods-Audiolicious/Pods-Audiolicious.release.xcconfig"; sourceTree = "<group>"; };
+		F2057C7F1FC3E50F00FC2578 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		F26B20299537A4C417AFAB3A /* Pods_Audiolicious.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Audiolicious.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F28F31C11FC3DB10008FD933 /* Audiolicious.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Audiolicious.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F28F31C41FC3DB10008FD933 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -33,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2057C801FC3E52600FC2578 /* CoreBluetooth.framework in Frameworks */,
 				8FB8A018DF9BBBA3B26630B9 /* Pods_Audiolicious.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -43,6 +46,7 @@
 		68EC1DE7A2556C3CC0398100 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F2057C7F1FC3E50F00FC2578 /* CoreBluetooth.framework */,
 				F26B20299537A4C417AFAB3A /* Pods_Audiolicious.framework */,
 			);
 			name = Frameworks;
@@ -124,6 +128,11 @@
 					F28F31C01FC3DB10008FD933 = {
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
