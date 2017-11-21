@@ -19,39 +19,77 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Audiolicious" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qTS-ea-MNf">
-                                <rect key="frame" x="129" y="36" width="116.5" height="24"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <rect key="frame" x="73.5" y="32" width="228" height="48"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LmQ-rG-9K0">
-                                <rect key="frame" x="160.5" y="537" width="53" height="30"/>
-                                <state key="normal" title="Refresh"/>
-                                <connections>
-                                    <action selector="onRefresh:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MCm-ux-SIY"/>
-                                    <action selector="onScanTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Fnl-9l-tyS"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aSh-3W-hVN">
-                                <rect key="frame" x="162.5" y="90" width="49.5" height="21"/>
+                                <rect key="frame" x="162" y="110" width="51" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Device Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yhu-NN-yQi" userLabel="Device Name Label">
+                                <rect key="frame" x="136.5" y="161" width="101" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Service UUID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xay-dS-FRI">
+                                <rect key="frame" x="133.5" y="202" width="107" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Service UUID" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qxd-LP-3QD" userLabel="Service UUID Label">
+                                <rect key="frame" x="-0.5" y="228" width="375.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Characteristic Value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uTf-6L-FoS" userLabel="Characteristic Label">
+                                <rect key="frame" x="111.5" y="312" width="151.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u07-RI-Yzt">
+                                <rect key="frame" x="163" y="393" width="49" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Fetch"/>
+                                <connections>
+                                    <action selector="onGetValue:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4lJ-ZL-d9i"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="xay-dS-FRI" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="0x3-eh-yLO"/>
+                            <constraint firstItem="u07-RI-Yzt" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="16u-au-Arh"/>
+                            <constraint firstItem="qxd-LP-3QD" firstAttribute="width" secondItem="6Tk-OE-BBY" secondAttribute="width" id="1QU-Mn-xIS"/>
                             <constraint firstItem="aSh-3W-hVN" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="9GI-Eg-TKp"/>
-                            <constraint firstItem="LmQ-rG-9K0" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="PX7-uX-aPm"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="qTS-ea-MNf" secondAttribute="bottom" constant="-40" id="c7N-iX-HNQ"/>
+                            <constraint firstItem="yhu-NN-yQi" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="CCx-62-V7h"/>
+                            <constraint firstItem="u07-RI-Yzt" firstAttribute="top" secondItem="uTf-6L-FoS" secondAttribute="bottom" constant="60" id="Ear-4H-h6m"/>
+                            <constraint firstItem="xay-dS-FRI" firstAttribute="top" secondItem="yhu-NN-yQi" secondAttribute="bottom" constant="20" id="LHw-Dt-rWL"/>
+                            <constraint firstItem="uTf-6L-FoS" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="M7a-UI-wGo"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="qTS-ea-MNf" secondAttribute="bottom" constant="-60" id="Yj6-Sw-8SY"/>
                             <constraint firstItem="qTS-ea-MNf" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="cXf-tS-2gq"/>
                             <constraint firstItem="aSh-3W-hVN" firstAttribute="top" secondItem="qTS-ea-MNf" secondAttribute="bottom" constant="30" id="fFV-iK-1YM"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="LmQ-rG-9K0" secondAttribute="bottom" constant="100" id="lS4-mT-c6r"/>
+                            <constraint firstItem="uTf-6L-FoS" firstAttribute="top" secondItem="qxd-LP-3QD" secondAttribute="bottom" constant="63" id="jh5-eK-GI5"/>
+                            <constraint firstItem="qxd-LP-3QD" firstAttribute="top" secondItem="xay-dS-FRI" secondAttribute="bottom" constant="5" id="qi5-EN-6PE"/>
+                            <constraint firstItem="qxd-LP-3QD" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="rv9-AZ-vwO"/>
+                            <constraint firstItem="yhu-NN-yQi" firstAttribute="top" secondItem="aSh-3W-hVN" secondAttribute="bottom" constant="30" id="uic-XP-xly"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="characteristicValueLabel" destination="uTf-6L-FoS" id="6RW-j7-2Xs"/>
                         <outlet property="connectionStatusLabel" destination="aSh-3W-hVN" id="95d-Ut-WW3"/>
+                        <outlet property="deviceNameLabel" destination="yhu-NN-yQi" id="aZs-3O-po6"/>
+                        <outlet property="getValueButton" destination="u07-RI-Yzt" id="YEy-U2-y5W"/>
+                        <outlet property="serviceUUIDTitleLabel" destination="xay-dS-FRI" id="hSa-JS-TUo"/>
+                        <outlet property="serviceUUIdValueLabel" destination="qxd-LP-3QD" id="DSs-Q6-Um8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
