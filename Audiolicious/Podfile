@@ -6,4 +6,6 @@ target 'Audiolicious' do
   use_frameworks!
 
   # Pods for Audiolicious
+  pod 'Firebase/Core'
+  pod 'Firebase/Storage'
 end

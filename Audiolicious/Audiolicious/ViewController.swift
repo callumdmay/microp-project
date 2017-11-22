@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreBluetooth
+import Firebase
 
 class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
     @IBOutlet weak var connectionStatusLabel: UILabel!
@@ -32,6 +33,25 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         self.characteristicValueLabel.text = ""
         self.serviceUUIdValueLabel.text = ""
         self.serviceUUIDTitleLabel.text = ""
+    }
+    
+    func uploadtoFirebase(data: Data) {
+        let storageRef = Storage.storage().reference()
+        let audioRef = storageRef.child("audio")
+        let uploadTask = audioRef.putData(data, metadata: nil) { (metadata, error) in
+            guard let metadata = metadata else {
+                
+                return
+            }
+        }
+        
+        uploadTask.observe(.success) { snapshot in
+            self.connectionStatusLabel.text = "Successfully uploaded data to server"
+        }
+        
+        uploadTask.observe(.failure) { snapshot in
+            self.connectionStatusLabel.text = "Error in data upload"
+        }
     }
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
@@ -105,6 +125,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
                 var bytes = Array(repeating: 0 as UInt8, count:data.count/MemoryLayout<UInt8>.size)
                 data.copyBytes(to: &bytes, count:data.count)
                 
+                uploadtoFirebase(data: data)
                 var text:String = ""
                 
                 for byte in bytes {
