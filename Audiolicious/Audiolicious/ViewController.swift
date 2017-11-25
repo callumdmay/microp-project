@@ -17,14 +17,21 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     @IBOutlet weak var characteristicValueLabel: UILabel!
     @IBOutlet weak var getValueButton: UIButton!
     @IBOutlet weak var serviceUUIDTitleLabel: UILabel!
+    @IBOutlet weak var uploadButton: UIButton!
+    @IBOutlet weak var uploadStatusLabel: UILabel!
     
     var centralManager: CBCentralManager!
     var peripheral:CBPeripheral!
     var characteristic: CBCharacteristic!
     
+    var uploadData: Data!
+    
     let BLE_NAME = "DSAUCE1"
     let BLE_SERVICE_UUID = CBUUID(string: "02366E80-CF3A-11E1-9AB4-0002A5D5C51B")
     let BLE_CHARACTERISTIC_UUID = CBUUID(string: "340A1B80-CF4B-11E1-AC36-0002A5D5C51B")
+    //let BLE_NAME = "Glucose"
+    //let BLE_SERVICE_UUID = CBUUID(string: "1010")
+    //let BLE_CHARACTERISTIC_UUID = CBUUID(string: "D00D")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,24 +40,27 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         self.characteristicValueLabel.text = ""
         self.serviceUUIdValueLabel.text = ""
         self.serviceUUIDTitleLabel.text = ""
+        self.uploadStatusLabel.text = ""
+        uploadButton.isHidden = true
+        uploadButton.isEnabled = false
     }
     
     func uploadtoFirebase(data: Data) {
         let storageRef = Storage.storage().reference()
         let audioRef = storageRef.child("audio")
+        self.uploadStatusLabel.text = "Uploading to server..."
         let uploadTask = audioRef.putData(data, metadata: nil) { (metadata, error) in
-            guard let metadata = metadata else {
-                
+            guard metadata != nil else {
                 return
             }
         }
         
         uploadTask.observe(.success) { snapshot in
-            self.connectionStatusLabel.text = "Successfully uploaded data to server"
+            self.uploadStatusLabel.text = "Successfully uploaded data to server"
         }
         
         uploadTask.observe(.failure) { snapshot in
-            self.connectionStatusLabel.text = "Error in data upload"
+            self.uploadStatusLabel.text = "Error in data upload"
         }
     }
     
@@ -59,7 +69,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             self.centralManager?.scanForPeripherals(withServices: nil, options: nil)
             self.connectionStatusLabel.text = "Scanning..."
         } else {
-            print("BLE not on")
+            self.connectionStatusLabel.text = "BLE not enabled"
         }
     }
     
@@ -70,6 +80,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         let device = (advertisementData as NSDictionary)
             .object(forKey: CBAdvertisementDataLocalNameKey)
             as? NSString
+        
         if device?.contains(BLE_NAME) == true {
             self.centralManager.stopScan()
             self.connectionStatusLabel.text = "BLE Device found. Connecting..."
@@ -124,8 +135,11 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             if let data = characteristic.value {
                 var bytes = Array(repeating: 0 as UInt8, count:data.count/MemoryLayout<UInt8>.size)
                 data.copyBytes(to: &bytes, count:data.count)
+            
+                self.uploadData = data
+                uploadButton.isHidden = false
+                uploadButton.isEnabled = true
                 
-                uploadtoFirebase(data: data)
                 var text:String = ""
                 
                 for byte in bytes {
@@ -148,6 +162,12 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     @IBAction func onGetValue(_ sender: Any) {
         if (self.centralManager.state == .poweredOn) {
             self.centralManager.scanForPeripherals(withServices: nil, options: nil)
+        }
+    }
+    
+    @IBAction func onUploadPressed(_ sender: Any) {
+        if let data = self.uploadData {
+            uploadtoFirebase(data: data)
         }
     }
     

@@ -62,20 +62,39 @@
                                     <action selector="onGetValue:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4lJ-ZL-d9i"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QBD-NE-nqB" userLabel="Upload">
+                                <rect key="frame" x="156" y="459" width="63" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Upload"/>
+                                <connections>
+                                    <action selector="onGetValue:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RXt-Cn-0s4"/>
+                                    <action selector="onUploadPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="goR-WF-uZ0"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Upload Status Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IXn-6G-H7p">
+                                <rect key="frame" x="112" y="520" width="152" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="xay-dS-FRI" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="0x3-eh-yLO"/>
                             <constraint firstItem="u07-RI-Yzt" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="16u-au-Arh"/>
                             <constraint firstItem="qxd-LP-3QD" firstAttribute="width" secondItem="6Tk-OE-BBY" secondAttribute="width" id="1QU-Mn-xIS"/>
+                            <constraint firstItem="IXn-6G-H7p" firstAttribute="top" secondItem="QBD-NE-nqB" secondAttribute="bottom" constant="25" id="5ox-gf-I7Q"/>
                             <constraint firstItem="aSh-3W-hVN" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="9GI-Eg-TKp"/>
+                            <constraint firstItem="IXn-6G-H7p" firstAttribute="centerX" secondItem="QBD-NE-nqB" secondAttribute="centerX" id="9VX-nd-RBX"/>
                             <constraint firstItem="yhu-NN-yQi" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="CCx-62-V7h"/>
                             <constraint firstItem="u07-RI-Yzt" firstAttribute="top" secondItem="uTf-6L-FoS" secondAttribute="bottom" constant="60" id="Ear-4H-h6m"/>
                             <constraint firstItem="xay-dS-FRI" firstAttribute="top" secondItem="yhu-NN-yQi" secondAttribute="bottom" constant="20" id="LHw-Dt-rWL"/>
                             <constraint firstItem="uTf-6L-FoS" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="M7a-UI-wGo"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="qTS-ea-MNf" secondAttribute="bottom" constant="-60" id="Yj6-Sw-8SY"/>
                             <constraint firstItem="qTS-ea-MNf" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="cXf-tS-2gq"/>
+                            <constraint firstItem="QBD-NE-nqB" firstAttribute="top" secondItem="u07-RI-Yzt" secondAttribute="bottom" constant="30" id="exq-3B-d6E"/>
                             <constraint firstItem="aSh-3W-hVN" firstAttribute="top" secondItem="qTS-ea-MNf" secondAttribute="bottom" constant="30" id="fFV-iK-1YM"/>
+                            <constraint firstItem="QBD-NE-nqB" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="iv2-5S-jAx"/>
                             <constraint firstItem="uTf-6L-FoS" firstAttribute="top" secondItem="qxd-LP-3QD" secondAttribute="bottom" constant="63" id="jh5-eK-GI5"/>
                             <constraint firstItem="qxd-LP-3QD" firstAttribute="top" secondItem="xay-dS-FRI" secondAttribute="bottom" constant="5" id="qi5-EN-6PE"/>
                             <constraint firstItem="qxd-LP-3QD" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="rv9-AZ-vwO"/>
@@ -90,6 +109,8 @@
                         <outlet property="getValueButton" destination="u07-RI-Yzt" id="YEy-U2-y5W"/>
                         <outlet property="serviceUUIDTitleLabel" destination="xay-dS-FRI" id="hSa-JS-TUo"/>
                         <outlet property="serviceUUIdValueLabel" destination="qxd-LP-3QD" id="DSs-Q6-Um8"/>
+                        <outlet property="uploadButton" destination="QBD-NE-nqB" id="dmv-wV-ugm"/>
+                        <outlet property="uploadStatusLabel" destination="IXn-6G-H7p" id="1on-hM-cwO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
