@@ -9,12 +9,13 @@
 import UIKit
 import CoreBluetooth
 import Firebase
+import Alamofire
 
 class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
     @IBOutlet weak var connectionStatusLabel: UILabel!
     @IBOutlet weak var deviceNameLabel: UILabel!
     @IBOutlet weak var serviceUUIdValueLabel: UILabel!
-    @IBOutlet weak var characteristicValueLabel: UILabel!
+    @IBOutlet weak var valueLabel: UILabel!
     @IBOutlet weak var getValueButton: UIButton!
     @IBOutlet weak var serviceUUIDTitleLabel: UILabel!
     @IBOutlet weak var uploadButton: UIButton!
@@ -37,7 +38,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         super.viewDidLoad()
         centralManager = CBCentralManager(delegate: self, queue: nil)
         self.deviceNameLabel.text = ""
-        self.characteristicValueLabel.text = ""
+        self.valueLabel.text = ""
         self.serviceUUIdValueLabel.text = ""
         self.serviceUUIDTitleLabel.text = ""
         self.uploadStatusLabel.text = ""
@@ -61,6 +62,20 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         
         uploadTask.observe(.failure) { snapshot in
             self.uploadStatusLabel.text = "Error in data upload"
+        }
+    }
+    
+    @IBAction func onRecognizeSpeechTap(_ sender: Any) {
+
+        let url = "https://us-central1-microp-70683.cloudfunctions.net/recognizeSpeech"
+        Alamofire.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default)
+            .responseJSON { response in
+                if let result = response.result.value {
+                    let JSON = result as! NSDictionary
+                    let result = JSON["result"] as! String
+                    self.valueLabel.text = "Speech: " + result
+                }
+                
         }
     }
     
@@ -145,7 +160,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
                 for byte in bytes {
                   text += "\(byte) "
                 }
-                self.characteristicValueLabel.text = text
+                self.valueLabel.text = text
             }
             
         }

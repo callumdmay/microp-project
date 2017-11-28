@@ -48,8 +48,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Characteristic Value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uTf-6L-FoS" userLabel="Characteristic Label">
-                                <rect key="frame" x="111.5" y="312" width="151.5" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uTf-6L-FoS" userLabel="Value Label">
+                                <rect key="frame" x="166.5" y="312" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -77,6 +77,16 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zrw-o7-fFY">
+                                <rect key="frame" x="106.5" y="573" width="162" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Recognize Speech"/>
+                                <connections>
+                                    <action selector="onGetValue:" destination="BYZ-38-t0r" eventType="touchUpInside" id="U9m-Du-deI"/>
+                                    <action selector="onRecognizeSpeechTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="b8y-ej-q7j"/>
+                                    <action selector="onUploadPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9QQ-35-d47"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -87,9 +97,11 @@
                             <constraint firstItem="aSh-3W-hVN" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="9GI-Eg-TKp"/>
                             <constraint firstItem="IXn-6G-H7p" firstAttribute="centerX" secondItem="QBD-NE-nqB" secondAttribute="centerX" id="9VX-nd-RBX"/>
                             <constraint firstItem="yhu-NN-yQi" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="CCx-62-V7h"/>
+                            <constraint firstItem="zrw-o7-fFY" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Cqu-Ki-hfp"/>
                             <constraint firstItem="u07-RI-Yzt" firstAttribute="top" secondItem="uTf-6L-FoS" secondAttribute="bottom" constant="60" id="Ear-4H-h6m"/>
                             <constraint firstItem="xay-dS-FRI" firstAttribute="top" secondItem="yhu-NN-yQi" secondAttribute="bottom" constant="20" id="LHw-Dt-rWL"/>
                             <constraint firstItem="uTf-6L-FoS" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="M7a-UI-wGo"/>
+                            <constraint firstItem="zrw-o7-fFY" firstAttribute="top" secondItem="IXn-6G-H7p" secondAttribute="bottom" constant="32" id="Qwc-DA-vag"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="qTS-ea-MNf" secondAttribute="bottom" constant="-60" id="Yj6-Sw-8SY"/>
                             <constraint firstItem="qTS-ea-MNf" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="cXf-tS-2gq"/>
                             <constraint firstItem="QBD-NE-nqB" firstAttribute="top" secondItem="u07-RI-Yzt" secondAttribute="bottom" constant="30" id="exq-3B-d6E"/>
@@ -103,7 +115,6 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="characteristicValueLabel" destination="uTf-6L-FoS" id="6RW-j7-2Xs"/>
                         <outlet property="connectionStatusLabel" destination="aSh-3W-hVN" id="95d-Ut-WW3"/>
                         <outlet property="deviceNameLabel" destination="yhu-NN-yQi" id="aZs-3O-po6"/>
                         <outlet property="getValueButton" destination="u07-RI-Yzt" id="YEy-U2-y5W"/>
@@ -111,6 +122,7 @@
                         <outlet property="serviceUUIdValueLabel" destination="qxd-LP-3QD" id="DSs-Q6-Um8"/>
                         <outlet property="uploadButton" destination="QBD-NE-nqB" id="dmv-wV-ugm"/>
                         <outlet property="uploadStatusLabel" destination="IXn-6G-H7p" id="1on-hM-cwO"/>
+                        <outlet property="valueLabel" destination="uTf-6L-FoS" id="6RW-j7-2Xs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
