@@ -11,15 +11,16 @@ import CoreBluetooth
 import Firebase
 import Alamofire
 
-class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
+class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
     @IBOutlet weak var connectionStatusLabel: UILabel!
-    @IBOutlet weak var deviceNameLabel: UILabel!
-    @IBOutlet weak var serviceUUIdValueLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
     @IBOutlet weak var getValueButton: UIButton!
-    @IBOutlet weak var serviceUUIDTitleLabel: UILabel!
     @IBOutlet weak var uploadButton: UIButton!
     @IBOutlet weak var uploadStatusLabel: UILabel!
+    @IBOutlet weak var dataTextView: UITextView!
+    @IBOutlet weak var deviceNameTextField: UITextField!
+    @IBOutlet weak var serviceUUIDTextField: UITextField!
+    @IBOutlet weak var characteristicUUIDTextField: UITextField!
     
     var centralManager: CBCentralManager!
     var peripheral:CBPeripheral!
@@ -27,23 +28,27 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     
     var uploadData: Data!
     
-    let BLE_NAME = "DSAUCE1"
-    let BLE_SERVICE_UUID = CBUUID(string: "02366E80-CF3A-11E1-9AB4-0002A5D5C51B")
-    let BLE_CHARACTERISTIC_UUID = CBUUID(string: "340A1B80-CF4B-11E1-AC36-0002A5D5C51B")
-    //let BLE_NAME = "Glucose"
-    //let BLE_SERVICE_UUID = CBUUID(string: "1010")
-    //let BLE_CHARACTERISTIC_UUID = CBUUID(string: "D00D")
+    //let BLE_NAME = "DSAUCE1"
+    var BLE_SERVICE_UUID = CBUUID(string: "02366E80-CF3A-11E1-9AB4-0002A5D5C51B")
+    var BLE_CHARACTERISTIC_UUID = CBUUID(string: "340A1B80-CF4B-11E1-AC36-0002A5D5C51B")
+    var BLE_NAME = "Glucose"
+    //let BLE_SERVICE_UUID = CBUUID(string: "64FADF68-592F-68E0-C0BE-4ADCB7FD8792")
+    //let BLE_CHARACTERISTIC_UUID = CBUUID(string: "")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         centralManager = CBCentralManager(delegate: self, queue: nil)
-        self.deviceNameLabel.text = ""
-        self.valueLabel.text = ""
-        self.serviceUUIdValueLabel.text = ""
-        self.serviceUUIDTitleLabel.text = ""
-        self.uploadStatusLabel.text = ""
+        valueLabel.text = ""
+        uploadStatusLabel.text = ""
+        deviceNameTextField.text = BLE_NAME
+        deviceNameTextField.delegate = self
+        serviceUUIDTextField.text = BLE_SERVICE_UUID.uuidString
+        serviceUUIDTextField.delegate = self
+        characteristicUUIDTextField.text = BLE_CHARACTERISTIC_UUID.uuidString
+        characteristicUUIDTextField.delegate = self
         uploadButton.isHidden = true
         uploadButton.isEnabled = false
+        
     }
     
     func uploadtoFirebase(data: Data) {
@@ -66,7 +71,6 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     }
     
     @IBAction func onRecognizeSpeechTap(_ sender: Any) {
-
         let url = "https://us-central1-microp-70683.cloudfunctions.net/recognizeSpeech"
         Alamofire.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default)
             .responseJSON { response in
@@ -75,14 +79,12 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
                     let result = JSON["result"] as! String
                     self.valueLabel.text = "Speech: " + result
                 }
-                
         }
     }
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         if (central.state == .poweredOn) {
-            self.centralManager?.scanForPeripherals(withServices: nil, options: nil)
-            self.connectionStatusLabel.text = "Scanning..."
+            self.connectionStatusLabel.text = "BLE ready"
         } else {
             self.connectionStatusLabel.text = "BLE not enabled"
         }
@@ -111,7 +113,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         self.getValueButton.isHidden = true
         self.getValueButton.isEnabled = false
         if let name = peripheral.name {
-            self.deviceNameLabel.text = name
+            self.connectionStatusLabel.text = "Connected to BLE Device" + name
         }
         peripheral.discoverServices(nil)
     }
@@ -121,8 +123,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             let thisService = service as CBService
             
             if service.uuid == BLE_SERVICE_UUID {
-                self.serviceUUIDTitleLabel.text = "Service UUID:"
-                self.serviceUUIdValueLabel.text = service.uuid.uuidString
+                self.connectionStatusLabel.text = "Found service"
                 peripheral.discoverCharacteristics(
                     nil,
                     for: thisService
@@ -136,6 +137,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             let thisCharacteristic = characteristic as CBCharacteristic
             
             if thisCharacteristic.uuid == BLE_CHARACTERISTIC_UUID {
+                self.connectionStatusLabel.text = "Fully connected to BLE Device"
                 self.characteristic = thisCharacteristic
                 self.peripheral.setNotifyValue(
                     true,
@@ -160,29 +162,47 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
                 for byte in bytes {
                   text += "\(byte) "
                 }
-                self.valueLabel.text = text
+                self.dataTextView.text = text
             }
             
         }
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-        self.deviceNameLabel.text = ""
-        self.serviceUUIdValueLabel.text = ""
-        self.connectionStatusLabel.text = "Not connected"
+        self.connectionStatusLabel.text = "Disconnected"
         self.getValueButton.isHidden = false
         self.getValueButton.isEnabled = true
     }
     
     @IBAction func onGetValue(_ sender: Any) {
         if (self.centralManager.state == .poweredOn) {
+            self.connectionStatusLabel.text = "Scanning..."
             self.centralManager.scanForPeripherals(withServices: nil, options: nil)
+        } else {
+            self.connectionStatusLabel.text = "BLE not enabled"
         }
     }
     
     @IBAction func onUploadPressed(_ sender: Any) {
         if let data = self.uploadData {
             uploadtoFirebase(data: data)
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let text = textField.text, !text.isEmpty {
+            if (textField == self.deviceNameTextField) {
+                self.BLE_NAME = text
+            } else if (textField == self.serviceUUIDTextField) {
+                self.BLE_SERVICE_UUID = CBUUID(string: text)
+            } else if (textField == self.characteristicUUIDTextField) {
+                self.BLE_CHARACTERISTIC_UUID = CBUUID(string: text)
+            }
         }
     }
     
