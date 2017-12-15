@@ -6,6 +6,7 @@ exports.recognizeSpeech = (req, res) => {
   // Creates a client
   const client = new speech.SpeechClient();
 
+  // Configuration values for speech detection
   const gcsUri = 'gs://microp-70683.appspot.com/audio_output.flac';
   const encoding = 'FLAC';
   const languageCode = 'en-US';
@@ -31,9 +32,11 @@ exports.recognizeSpeech = (req, res) => {
       .map(result => result.alternatives[0].transcript)
       .join('\n');
     console.log(`Transcription: `, transcription);
+    //Return the result of the speech in an http response with status code 200
     res.status(200).json({ result: transcription });
   })
   .catch(err => {
     console.error('ERROR:', err);
+    res.status(500).json({ error: `There was a server error:\n${err}` });
   });
 };

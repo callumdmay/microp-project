@@ -28,16 +28,16 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     
     var uploadData: Data!
     
-    //let BLE_NAME = "DSAUCE1"
     var BLE_SERVICE_UUID = CBUUID(string: "02366E80-CF3A-11E1-9AB4-0002A5D5C51B")
     var BLE_CHARACTERISTIC_UUID = CBUUID(string: "340A1B80-CF4B-11E1-AC36-0002A5D5C51B")
     var BLE_NAME = "Glucose"
-    //let BLE_SERVICE_UUID = CBUUID(string: "64FADF68-592F-68E0-C0BE-4ADCB7FD8792")
-    //let BLE_CHARACTERISTIC_UUID = CBUUID(string: "")
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Initialize the core bluetooth manager
         centralManager = CBCentralManager(delegate: self, queue: nil)
+        //Set all the labels, textfields and buttons
         valueLabel.text = ""
         uploadStatusLabel.text = ""
         deviceNameTextField.text = BLE_NAME
@@ -48,9 +48,9 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         characteristicUUIDTextField.delegate = self
         uploadButton.isHidden = true
         uploadButton.isEnabled = false
-        
     }
     
+    //Use the firebase package to upload the audio data to the cloud and updates the status label based on the result
     func uploadtoFirebase(data: Data) {
         let storageRef = Storage.storage().reference()
         let audioRef = storageRef.child("audio")
@@ -70,6 +70,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         }
     }
     
+    //When the user taps the button, send an http request to the firebase lambda speech recognition function and display the result
     @IBAction func onRecognizeSpeechTap(_ sender: Any) {
         let url = "https://us-central1-microp-70683.cloudfunctions.net/recognizeSpeech"
         Alamofire.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default)
@@ -82,6 +83,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         }
     }
     
+    //Display to the user when BLE is enabled and ready to go
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         if (central.state == .poweredOn) {
             self.connectionStatusLabel.text = "BLE ready"
@@ -90,6 +92,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         }
     }
     
+    //Delegate function thats called when the bluetooth manager discovers a peripheral
     func centralManager(_ central: CBCentralManager,
                                  didDiscover peripheral: CBPeripheral,
                                  advertisementData: [String : Any],
@@ -103,11 +106,13 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             self.connectionStatusLabel.text = "BLE Device found. Connecting..."
             self.peripheral = peripheral
             self.peripheral.delegate = self
-            
+            //If we find the peripheral we're looking for, connect to it
             centralManager.connect(peripheral, options: nil)
         }
         
     }
+    
+    
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         self.connectionStatusLabel.text = "Connected to BLE Device"
         self.getValueButton.isHidden = true
@@ -115,6 +120,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         if let name = peripheral.name {
             self.connectionStatusLabel.text = "Connected to BLE Device" + name
         }
+        //After we connect to the peripheral, start looking for services
         peripheral.discoverServices(nil)
     }
     
@@ -124,6 +130,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             
             if service.uuid == BLE_SERVICE_UUID {
                 self.connectionStatusLabel.text = "Found service"
+                //After we find the service, start looking for characteristics
                 peripheral.discoverCharacteristics(
                     nil,
                     for: thisService
@@ -139,6 +146,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             if thisCharacteristic.uuid == BLE_CHARACTERISTIC_UUID {
                 self.connectionStatusLabel.text = "Fully connected to BLE Device"
                 self.characteristic = thisCharacteristic
+                //When we find the characteristic, set the notify value so we can subscribe to data updates from the BLE peripheral
                 self.peripheral.setNotifyValue(
                     true,
                     for: thisCharacteristic
@@ -147,6 +155,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         }
     }
     
+    //Process the incoming BLE peripgeral data and display it on the app
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         if characteristic.uuid == BLE_CHARACTERISTIC_UUID {
             if let data = characteristic.value {
@@ -168,12 +177,14 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         }
     }
     
+    //Called when BLE device disconnects, update status label and show connect button
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         self.connectionStatusLabel.text = "Disconnected"
         self.getValueButton.isHidden = false
         self.getValueButton.isEnabled = true
     }
     
+    //Start scanning for BLE peripherals
     @IBAction func onGetValue(_ sender: Any) {
         if (self.centralManager.state == .poweredOn) {
             self.connectionStatusLabel.text = "Scanning..."
@@ -183,6 +194,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         }
     }
     
+
     @IBAction func onUploadPressed(_ sender: Any) {
         if let data = self.uploadData {
             uploadtoFirebase(data: data)
